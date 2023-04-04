@@ -9,8 +9,17 @@ CREATE TABLE patients(
 
 CREATE TABLE medical_histories (
 		id INT GENERATED ALWAYS AS IDENTITY,
-    admitted_at DATE,
+    admitted_at TIMESTAMP,
     patient_id INT,
     status VARCHAR(100),
     PRIMARY KEY (id)
 );
+
+CREATE TABLE invoices {
+  id                  INT GENERATED ALWAYS AS IDENTITY,
+  total_amount        DECIMAL,
+  generated_at        TIMESTAMP,
+  payed_at            TIMESTAMP,
+  medical_history_id  INT,
+  PRIMARY KEY(id)
+}
