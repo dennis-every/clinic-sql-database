@@ -10,7 +10,7 @@ CREATE TABLE patients(
 CREATE TABLE medical_histories (
 		id INT GENERATED ALWAYS AS IDENTITY,
     admitted_at TIMESTAMP,
-    patient_id INT,
+    patient_id INT REFERENCES patients(id),
     status VARCHAR(100),
     PRIMARY KEY (id)
 );
@@ -20,7 +20,7 @@ CREATE TABLE invoices {
   total_amount        DECIMAL,
   generated_at        TIMESTAMP,
   payed_at            TIMESTAMP,
-  medical_history_id  INT,
+  medical_history_id  INT REFERENCES medical_histories(id),
   PRIMARY KEY(id)
 }
 
@@ -30,9 +30,9 @@ CREATE TABLE invoice_items {
   unit_price        DECIMAL,
   quantity          INT,
   total_price       DECIMAL,
-  invoice_id        INT,
-  treatment_id      INT,
-  PRIMARY KEY(id)
+  invoice_id        INT REFERENCES invoices(id),
+  treatment_id      INT REFERENCES treatments(id),
+  PRIMARY KEY(id, invoice_id, treatment_id)
 }
 
 CREATE TABLE treatments (
@@ -42,10 +42,9 @@ CREATE TABLE treatments (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE visits (
-		date_of_visit DATE NOT NULL,
+CREATE TABLE medical_history_treatment(
     medical_history_id INTEGER REFERENCES medical_histories(id),
     treatment_id INTEGER REFERENCES treatments(id),
-    PRIMARY KEY (date_of_visit, medical_history_id, treatment_id)
+    PRIMARY KEY (medical_history_id, treatment_id)
 );
 
