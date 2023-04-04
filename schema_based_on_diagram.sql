@@ -34,3 +34,18 @@ CREATE TABLE invoice_items {
   treatment_id      INT,
   PRIMARY KEY(id)
 }
+
+CREATE TABLE treatments (
+	id INT GENERATED ALWAYS AS IDENTITY,
+  type	VARCHAR(100), 
+  name	VARCHAR(100),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE visits (
+		date_of_visit DATE NOT NULL,
+    medical_history_id INTEGER REFERENCES medical_histories(id),
+    treatment_id INTEGER REFERENCES treatments(id),
+    PRIMARY KEY (date_of_visit, medical_history_id, treatment_id)
+);
+
